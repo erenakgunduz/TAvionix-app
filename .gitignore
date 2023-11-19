@@ -130,5 +130,5 @@ dist
 .pnp.*
 
 # Data & other
-pb_data
+
 .DS_Store
