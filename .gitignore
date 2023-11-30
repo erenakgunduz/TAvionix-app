@@ -129,5 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Other
+# misc
 .DS_Store
+*.pem
