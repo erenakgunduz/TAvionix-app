@@ -1,10 +1,9 @@
-import { Welcome } from '../components/Welcome/Welcome';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
 
 export default function HomePage() {
   return (
     <>
-      <Welcome />
+      <h1>TAvionix</h1>
       <ColorSchemeToggle />
     </>
   );

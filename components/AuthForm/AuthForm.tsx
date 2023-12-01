@@ -66,7 +66,7 @@ export default function AuthForm({ logIn }: { logIn: (formData: FormData) => Pro
           />
           <Group justify="space-between" mt="lg">
             <Checkbox label="Remember me" />
-            <Anchor component="button" size="sm">
+            <Anchor component={Link} href="/reset-password" size="sm">
               Forgot password?
             </Anchor>
           </Group>

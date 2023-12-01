@@ -4,8 +4,8 @@ import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { theme } from '../theme';
 
 export const metadata = {
-  title: 'Mantine Next.js template',
-  description: 'I am using Mantine with Next.js!',
+  title: 'TAvionix',
+  description: 'Graduate teaching assistant system of the highest (flight) level',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
