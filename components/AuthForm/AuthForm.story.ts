@@ -1,4 +1,4 @@
-import AuthForm from './AuthForm-new';
+import AuthForm from './AuthForm';
 
 export default {
   component: AuthForm,
