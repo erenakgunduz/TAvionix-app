@@ -1,17 +1,16 @@
-import RegisterForm from './RegisterForm';
+import Component from './Component';
 
 export default {
-  component: RegisterForm,
-  title: 'Register form',
+  component: Component,
+  title: 'Component',
   tags: ['autodocs'],
 };
-
-const signUp = () => {};
 
 export const Default = {
   args: {
     registerForm: {
-      signUp: { signUp },
+      prop1: something,
+      prop2: andSoOn,
     },
   },
 };
