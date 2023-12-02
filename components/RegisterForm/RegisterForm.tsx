@@ -12,9 +12,7 @@ import {
 import { useForm } from '@mantine/form';
 import GithubButton from '../GithubButton/GithubButton';
 
-type Props = { signUp: (formData: FormData) => Promise<never> };
-
-export default function RegisterForm({ signUp }: Props) {
+export default function RegisterForm() {
   const form = useForm({
     initialValues: {
       email: '',
@@ -41,7 +39,7 @@ export default function RegisterForm({ signUp }: Props) {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => signUp)}>
+      <form onSubmit={form.onSubmit(() => {})}>
         <Stack>
           <TextInput
             label="Name"

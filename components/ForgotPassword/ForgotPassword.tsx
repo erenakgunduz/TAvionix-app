@@ -16,9 +16,7 @@ import { IconArrowLeft } from '@tabler/icons-react';
 import Link from 'next/link';
 import classes from './ForgotPassword.module.css';
 
-type Props = { resetPassword: (formData: FormData) => Promise<never> };
-
-export default function ForgotPassword({ resetPassword }: Props) {
+export default function ForgotPassword() {
   const form = useForm({
     initialValues: { email: '' },
     validate: { email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email') },
@@ -33,7 +31,7 @@ export default function ForgotPassword({ resetPassword }: Props) {
       </Text>
 
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-        <form onSubmit={form.onSubmit(() => resetPassword)}>
+        <form onSubmit={form.onSubmit(() => {})}>
           <TextInput
             label="Email"
             placeholder="you@example.com"

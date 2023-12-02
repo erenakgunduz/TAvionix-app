@@ -16,7 +16,7 @@ import Link from 'next/link';
 import GithubButton from '../GithubButton/GithubButton';
 import classes from './AuthForm.module.css';
 
-export default function AuthForm({ logIn }: { logIn: (formData: FormData) => Promise<never> }) {
+export default function AuthForm() {
   const form = useForm({
     initialValues: {
       email: '',
@@ -50,7 +50,7 @@ export default function AuthForm({ logIn }: { logIn: (formData: FormData) => Pro
           GitHub
         </GithubButton>
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
-        <form onSubmit={form.onSubmit(() => logIn)}>
+        <form onSubmit={form.onSubmit(() => {})}>
           <TextInput
             label="Email"
             placeholder="you@example.com"
