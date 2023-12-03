@@ -6,6 +6,10 @@ import { createClient } from '@/utils/supabase/server';
 export async function POST(request: Request) {
   const requestUrl = new URL(request.url);
   const formData = await request.formData();
+  const first_name = String(formData.get('first-name'));
+  const last_name = String(formData.get('last-name'));
+  const profile_type = String(formData.get('user-type')).toLowerCase();
+  const department = String(formData.get('department'));
   const email = String(formData.get('email'));
   const password = String(formData.get('password'));
 
@@ -16,9 +20,11 @@ export async function POST(request: Request) {
     email,
     password,
     options: {
+      data: { first_name, last_name, profile_type, department },
       emailRedirectTo: `${requestUrl.origin}/auth/callback`,
     },
   });
+
   if (!error) return NextResponse.redirect(requestUrl.origin, { status: 301 });
   return NextResponse.json({ error: error.message }, { status: error.status });
 }

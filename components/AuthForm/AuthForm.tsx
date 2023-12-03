@@ -14,10 +14,12 @@ import {
 import { useForm } from '@mantine/form';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import GithubButton from '../GithubButton/GithubButton';
 import classes from './AuthForm.module.css';
 
 export default function AuthForm() {
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: '',
@@ -35,9 +37,11 @@ export default function AuthForm() {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const formData = new FormData(document.getElementById('log-in') as HTMLFormElement);
       // console.log(...formData);
       const login = await fetch('/auth/login', { method: 'POST', body: formData });
+      if (login.status) setLoading(false);
       if (login.ok) return router.push('/dashboard');
       const errorMessage = await login.json();
       form.setErrors({ email: ' ', password: `${errorMessage.error}` });
@@ -114,7 +118,7 @@ export default function AuthForm() {
             </Anchor>
           </Group>
 
-          <Button fullWidth mt="xl" type="submit">
+          <Button fullWidth mt="xl" type="submit" loading={loading}>
             Log in
           </Button>
         </form>

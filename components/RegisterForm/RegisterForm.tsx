@@ -3,6 +3,7 @@ import {
   Checkbox,
   Divider,
   Group,
+  NativeSelect,
   Paper,
   PasswordInput,
   Stack,
@@ -11,9 +12,14 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import GithubButton from '../GithubButton/GithubButton';
 
 export default function RegisterForm() {
+  const [loading, setLoading] = useState(false);
+  const userTypes = ['', 'Applicant', 'Committee', 'Instructor', 'Staff'];
+  const departments = ['', 'Biology', 'Chemistry', 'Computer Science', 'Engineering', 'Physics'];
+
   const form = useForm({
     initialValues: {
       firstName: '',
@@ -35,9 +41,11 @@ export default function RegisterForm() {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const formData = new FormData(document.getElementById('sign-up') as HTMLFormElement);
       // console.log(...formData);
       const signUp = await fetch('/auth/sign-up', { method: 'POST', body: formData });
+      if (signUp.status) setLoading(false);
       if (signUp.ok) return router.push('/thank-you');
       const errorMessage = await signUp.json();
       form.setErrors({ email: ' ', password: `${errorMessage.error}` });
@@ -66,17 +74,32 @@ export default function RegisterForm() {
           <Group justify="space-between" grow>
             <TextInput
               label="First name"
-              name="first_name"
+              name="first-name"
               placeholder="Your first name"
               {...form.getInputProps('firstName')}
               radius="md"
             />
-
             <TextInput
               label="Last name"
-              name="last_name"
+              name="last-name"
               placeholder="Your last name"
               {...form.getInputProps('lastName')}
+              radius="md"
+            />
+          </Group>
+
+          <Group justify="space-between" grow>
+            <NativeSelect
+              label="What type of user are you?"
+              name="user-type"
+              data={userTypes}
+              required
+              radius="md"
+            />
+            <NativeSelect
+              label="Department (or major)"
+              name="department"
+              data={departments}
               radius="md"
             />
           </Group>
@@ -89,7 +112,6 @@ export default function RegisterForm() {
             required
             radius="md"
           />
-
           <PasswordInput
             label="Password"
             name="password"
@@ -108,7 +130,7 @@ export default function RegisterForm() {
         </Stack>
 
         <Group justify="space-between" mt="xl">
-          <Button type="submit" radius="xl">
+          <Button type="submit" radius="xl" loading={loading}>
             Register
           </Button>
         </Group>
