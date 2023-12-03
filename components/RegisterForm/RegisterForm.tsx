@@ -10,22 +10,28 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useRouter } from 'next/navigation';
 import GithubButton from '../GithubButton/GithubButton';
 
 export default function RegisterForm() {
   const form = useForm({
     initialValues: {
+      firstName: '',
+      lastName: '',
       email: '',
-      name: '',
       password: '',
       terms: true,
     },
 
     validate: {
+      firstName: (val) => (val.length === 1 ? 'First name is too short' : null),
+      lastName: (val) => (val.length === 1 ? 'Last name is too short' : null),
       email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+      password: (val) => (val.length < 6 ? 'Password should include at least 6 characters' : null),
     },
   });
+
+  const router = useRouter();
 
   return (
     <Paper withBorder radius="md" p="xl">
@@ -39,18 +45,49 @@ export default function RegisterForm() {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form
+        id="sign-up"
+        onSubmit={form.onSubmit(
+          async () => {
+            try {
+              const formData = new FormData(document.getElementById('sign-up') as HTMLFormElement);
+              // console.log(...formData);
+              const signUp = await fetch('/auth/sign-up', { method: 'POST', body: formData });
+              if (signUp.ok) return router.push('/thank-you');
+              const errorMessage = await signUp.json();
+              form.setErrors({ email: ' ', password: `${errorMessage.error}` });
+              throw new Error(
+                `Unable to register user, ${signUp.status} (${signUp.statusText}) response with message ${errorMessage.error}`
+              );
+            } catch (err) {
+              return console.error(err);
+            }
+          },
+          () => {} // Validation fail handler
+        )}
+      >
         <Stack>
-          <TextInput
-            label="Name"
-            placeholder="Your full name"
-            {...form.getInputProps('name')}
-            required
-            radius="md"
-          />
+          <Group justify="space-between" grow>
+            <TextInput
+              label="First name"
+              name="first_name"
+              placeholder="Your first name"
+              {...form.getInputProps('firstName')}
+              radius="md"
+            />
+
+            <TextInput
+              label="Last name"
+              name="last_name"
+              placeholder="Your last name"
+              {...form.getInputProps('lastName')}
+              radius="md"
+            />
+          </Group>
 
           <TextInput
             label="Email"
+            name="email"
             placeholder="you@example.com"
             {...form.getInputProps('email')}
             required
@@ -59,6 +96,7 @@ export default function RegisterForm() {
 
           <PasswordInput
             label="Password"
+            name="password"
             placeholder="Your password"
             {...form.getInputProps('password')}
             required

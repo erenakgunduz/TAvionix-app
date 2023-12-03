@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import GithubButton from '../GithubButton/GithubButton';
 import classes from './AuthForm.module.css';
 
@@ -26,18 +27,35 @@ export default function AuthForm() {
 
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+      password: (val) => (val.length < 6 ? 'Password should include at least 6 characters' : null),
     },
   });
+
+  const router = useRouter();
+
+  // Experimenting with dynamic input validation
+  // const valInRealTime = (name: string) =>
+  //   useEffect(() => {
+  //     form.validateField(name);
+  //   }, [form.values[name]]);
+
+  // valInRealTime('email');
+  // valInRealTime('password'); // Works perfectly but looks too janky due to rapid fire re-renders
+
+  // const handleChange = (name: string) => (e: ChangeEvent<HTMLInputElement>) => {
+  //   form.setFieldValue(name, e.currentTarget.value);
+  //   form.validateField(name); // Looks fine but lags due to async sets, moving on to more important matters
+  // };
 
   return (
     <Container size={420} my={40}>
       <Title ta="center" className={classes.title}>
         Welcome back!
       </Title>
+
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         {"Don't have an account yet? "}
-        <Anchor size="sm" component={Link} href="/signup">
+        <Anchor size="sm" component={Link} href="/sign-up">
           Create account
         </Anchor>
       </Text>
@@ -46,30 +64,60 @@ export default function AuthForm() {
         <Text size="lg" fw={500}>
           Log in with
         </Text>
+
         <GithubButton fullWidth mb="md" mt="md">
           GitHub
         </GithubButton>
+
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
-        <form onSubmit={form.onSubmit(() => {})}>
+
+        <form
+          id="log-in"
+          onSubmit={form.onSubmit(
+            async () => {
+              try {
+                const formData = new FormData(document.getElementById('log-in') as HTMLFormElement);
+                // console.log(...formData);
+                const login = await fetch('/auth/login', { method: 'POST', body: formData });
+                if (login.ok) return router.push('/dashboard');
+                const errorMessage = await login.json();
+                form.setErrors({ email: ' ', password: `${errorMessage.error}` });
+                throw new Error(
+                  `Unable to log in user, ${login.status} (${login.statusText}) response with message ${errorMessage.error}`
+                );
+              } catch (err) {
+                return console.error(err);
+              }
+            },
+            () => {} // Validation fail handler
+          )}
+        >
           <TextInput
             label="Email"
+            name="email"
             placeholder="you@example.com"
             {...form.getInputProps('email')}
+            // onChange={handleChange('email')}
             required
           />
+
           <PasswordInput
             label="Password"
+            name="password"
             placeholder="Your password"
             {...form.getInputProps('password')}
+            // onChange={handleChange('password')}
             required
             mt="md"
           />
+
           <Group justify="space-between" mt="lg">
             <Checkbox label="Remember me" />
             <Anchor component={Link} href="/reset-password" size="sm">
               Forgot password?
             </Anchor>
           </Group>
+
           <Button fullWidth mt="xl" type="submit">
             Log in
           </Button>

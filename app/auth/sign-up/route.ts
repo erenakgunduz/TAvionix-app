@@ -12,13 +12,13 @@ export async function POST(request: Request) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore); // docs had <Database> type here
 
-  await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${requestUrl.origin}/auth/callback`,
     },
   });
-
-  return NextResponse.redirect(requestUrl.origin, { status: 301 });
+  if (!error) return NextResponse.redirect(requestUrl.origin, { status: 301 });
+  return NextResponse.json({ error: error.message }, { status: error.status });
 }

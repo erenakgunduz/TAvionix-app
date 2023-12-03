@@ -1,3 +1,7 @@
+'use client';
+
+import ForgotPassword from '@/components/ForgotPassword/ForgotPassword';
+
 export default function PasswordReset() {
-  return <div>page</div>;
+  return <ForgotPassword />;
 }

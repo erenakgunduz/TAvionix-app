@@ -31,7 +31,12 @@ export default function ForgotPassword() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-        <form onSubmit={form.onSubmit(() => {})}>
+        <form
+          onSubmit={form.onSubmit(
+            () => {},
+            () => {}
+          )}
+        >
           <TextInput
             label="Email"
             placeholder="you@example.com"

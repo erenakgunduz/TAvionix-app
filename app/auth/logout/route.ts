@@ -12,7 +12,11 @@ export async function POST(request: Request) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session) await supabase.auth.signOut();
-
-  return NextResponse.redirect(requestUrl.origin, { status: 302 });
+  let logoutError = null;
+  if (session) {
+    const { error } = await supabase.auth.signOut();
+    logoutError = error;
+  }
+  if (!logoutError) return NextResponse.redirect(requestUrl.origin, { status: 302 });
+  return NextResponse.json({ error: logoutError.message }, { status: logoutError.status });
 }

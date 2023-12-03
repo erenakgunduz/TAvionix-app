@@ -1,3 +1,7 @@
+'use client';
+
+import AuthForm from '@/components/AuthForm/AuthForm';
+
 export default function Login() {
-  return <div>page</div>;
+  return <AuthForm />;
 }

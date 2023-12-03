@@ -1,5 +1,4 @@
 /* eslint-disable no-alert */
-/* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable @typescript-eslint/no-throw-literal */
@@ -14,9 +13,9 @@ import { createClient } from '@/utils/supabase/client';
 export default function AccountForm({ session }: { session: Session | null }) {
   const supabase = createClient(); // docs had <Database> type
   const [loading, setLoading] = useState(true);
-  const [fullname, setFullname] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [website, setWebsite] = useState<string | null>(null);
+  const [first_name, setFirstName] = useState<string | null>(null);
+  const [last_name, setLastName] = useState<string | null>(null);
+  const [profile_type, setProfileType] = useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
   const user = session?.user;
 
@@ -26,16 +25,16 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
       const { data, error, status } = await supabase
         .from('profiles')
-        .select('full_name, username, website, avatar_url')
+        .select('first_name, last_name, profile_type, avatar_url')
         .eq('id', user?.id)
         .single();
 
       if (error && status !== 406) throw error;
 
       if (data) {
-        setFullname(data.full_name);
-        setUsername(data.username);
-        setWebsite(data.website);
+        setFirstName(data.first_name);
+        setLastName(data.last_name);
+        setProfileType(data.profile_type);
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
@@ -49,27 +48,26 @@ export default function AccountForm({ session }: { session: Session | null }) {
     getProfile();
   }, [user, getProfile]);
 
-  async function updateProfile({
-    username,
-    website,
-    avatar_url,
-  }: {
-    username: string | null;
-    fullname: string | null;
-    website: string | null;
+  interface ProfileProps {
+    first_name: string | null;
+    last_name: string | null;
+    profile_type: string | null;
     avatar_url: string | null;
-  }) {
+  }
+
+  async function updateProfile({ first_name, last_name, profile_type, avatar_url }: ProfileProps) {
     try {
       setLoading(true);
 
       const { error } = await supabase.from('profiles').upsert({
         id: user?.id as string,
-        full_name: fullname,
-        username,
-        website,
+        first_name,
+        last_name,
+        profile_type,
         avatar_url,
         updated_at: new Date().toISOString(),
       });
+
       if (error) throw error;
       alert('Profile updated!');
     } catch (error) {
@@ -86,37 +84,38 @@ export default function AccountForm({ session }: { session: Session | null }) {
         <input id="email" type="text" value={session?.user.email} disabled />
       </div>
       <div>
-        <label htmlFor="fullName">Full Name</label>
+        <label htmlFor="first-name">First Name</label>
         <input
-          id="fullName"
+          id="first-name"
           type="text"
-          value={fullname || ''}
-          onChange={(e) => setFullname(e.target.value)}
+          value={first_name || ''}
+          onChange={(e) => setFirstName(e.target.value)}
         />
       </div>
       <div>
-        <label htmlFor="username">Username</label>
+        <label htmlFor="last-name">Last Name</label>
         <input
-          id="username"
+          id="last-name"
           type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
+          value={last_name || ''}
+          onChange={(e) => setLastName(e.target.value)}
         />
       </div>
       <div>
-        <label htmlFor="website">Website</label>
+        <label htmlFor="user-type">User Type</label>
         <input
-          id="website"
+          id="user-type"
           type="url"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
+          value={profile_type || ''}
+          onChange={(e) => setProfileType(e.target.value)}
         />
       </div>
 
       <div>
         <button
           className="button primary block"
-          onClick={() => updateProfile({ fullname, username, website, avatar_url })}
+          type="button"
+          onClick={() => updateProfile({ first_name, last_name, profile_type, avatar_url })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
