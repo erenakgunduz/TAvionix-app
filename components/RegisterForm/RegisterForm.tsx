@@ -33,6 +33,22 @@ export default function RegisterForm() {
 
   const router = useRouter();
 
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData(document.getElementById('sign-up') as HTMLFormElement);
+      // console.log(...formData);
+      const signUp = await fetch('/auth/sign-up', { method: 'POST', body: formData });
+      if (signUp.ok) return router.push('/thank-you');
+      const errorMessage = await signUp.json();
+      form.setErrors({ email: ' ', password: `${errorMessage.error}` });
+      throw new Error(
+        `Unable to register user, ${signUp.status} (${signUp.statusText}) response with message ${errorMessage.error}`
+      );
+    } catch (err) {
+      return console.error(err);
+    }
+  };
+
   return (
     <Paper withBorder radius="md" p="xl">
       <Text size="lg" fw={500}>
@@ -45,27 +61,7 @@ export default function RegisterForm() {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form
-        id="sign-up"
-        onSubmit={form.onSubmit(
-          async () => {
-            try {
-              const formData = new FormData(document.getElementById('sign-up') as HTMLFormElement);
-              // console.log(...formData);
-              const signUp = await fetch('/auth/sign-up', { method: 'POST', body: formData });
-              if (signUp.ok) return router.push('/thank-you');
-              const errorMessage = await signUp.json();
-              form.setErrors({ email: ' ', password: `${errorMessage.error}` });
-              throw new Error(
-                `Unable to register user, ${signUp.status} (${signUp.statusText}) response with message ${errorMessage.error}`
-              );
-            } catch (err) {
-              return console.error(err);
-            }
-          },
-          () => {} // Validation fail handler
-        )}
-      >
+      <form id="sign-up" onSubmit={form.onSubmit(handleSubmit)}>
         <Stack>
           <Group justify="space-between" grow>
             <TextInput

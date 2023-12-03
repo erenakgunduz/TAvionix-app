@@ -33,6 +33,22 @@ export default function AuthForm() {
 
   const router = useRouter();
 
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData(document.getElementById('log-in') as HTMLFormElement);
+      // console.log(...formData);
+      const login = await fetch('/auth/login', { method: 'POST', body: formData });
+      if (login.ok) return router.push('/dashboard');
+      const errorMessage = await login.json();
+      form.setErrors({ email: ' ', password: `${errorMessage.error}` });
+      throw new Error(
+        `Unable to log in user, ${login.status} (${login.statusText}) response with message ${errorMessage.error}`
+      );
+    } catch (err) {
+      return console.error(err);
+    }
+  };
+
   // Experimenting with dynamic input validation
   // const valInRealTime = (name: string) =>
   //   useEffect(() => {
@@ -71,27 +87,7 @@ export default function AuthForm() {
 
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-        <form
-          id="log-in"
-          onSubmit={form.onSubmit(
-            async () => {
-              try {
-                const formData = new FormData(document.getElementById('log-in') as HTMLFormElement);
-                // console.log(...formData);
-                const login = await fetch('/auth/login', { method: 'POST', body: formData });
-                if (login.ok) return router.push('/dashboard');
-                const errorMessage = await login.json();
-                form.setErrors({ email: ' ', password: `${errorMessage.error}` });
-                throw new Error(
-                  `Unable to log in user, ${login.status} (${login.statusText}) response with message ${errorMessage.error}`
-                );
-              } catch (err) {
-                return console.error(err);
-              }
-            },
-            () => {} // Validation fail handler
-          )}
-        >
+        <form id="log-in" onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput
             label="Email"
             name="email"
