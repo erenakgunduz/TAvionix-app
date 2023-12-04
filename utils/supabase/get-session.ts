@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from './server';
 
 export default async function getSession() {
   const cookieStore = cookies();
