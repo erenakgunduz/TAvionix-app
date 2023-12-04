@@ -10,14 +10,16 @@ export async function middleware(request: NextRequest) {
       data: { session },
     } = await supabase.auth.getSession();
 
-    // if session exists and the current path is / redirect the user to /account
+    const authRoutes = ['/account', '/apply', '/dashboard'];
+
+    // if session exists and the current path is / redirect the user to /dashboard
     if (session && request.nextUrl.pathname === '/') {
-      return NextResponse.redirect(new URL('/account', request.url));
+      return NextResponse.redirect(new URL(authRoutes[2], request.url));
     }
 
-    // if falsy/no session and the current path is /account redirect the user to /
-    if (!session && request.nextUrl.pathname === '/account') {
-      return NextResponse.redirect(new URL('/', request.url));
+    // if falsy/no session and the current path is an authenticated one redirect the user to /login
+    if (!session && authRoutes.includes(request.nextUrl.pathname)) {
+      return NextResponse.redirect(new URL('/login', request.url));
     }
 
     return response;
@@ -32,6 +34,6 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-export const config = {
-  matcher: ['/', '/account'],
-};
+// export const config = {
+//   matcher: ['/', '/account'],
+// };
