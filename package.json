@@ -26,8 +26,6 @@
     "@mantine/modals": "7.2.2",
     "@mantine/notifications": "7.2.2",
     "@next/bundle-analyzer": "^14.0.1",
-    "@supabase/auth-ui-react": "^0.4.6",
-    "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.39.0",
     "@tabler/icons-react": "^2.40.0",

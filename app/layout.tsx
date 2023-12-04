@@ -1,6 +1,6 @@
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
-import React from 'react';
-import { MantineProvider, ColorSchemeScript } from '@mantine/core';
+import { ReactNode } from 'react';
 import { theme } from '../theme';
 
 export const metadata = {
@@ -8,7 +8,7 @@ export const metadata = {
   description: 'Graduate teaching assistant system of the highest (flight) level',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>

@@ -20,6 +20,7 @@ import classes from './AuthForm.module.css';
 
 export default function AuthForm() {
   const [loading, setLoading] = useState(false);
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -113,6 +114,7 @@ export default function AuthForm() {
 
           <Group justify="space-between" mt="lg">
             <Checkbox label="Remember me" />
+
             <Anchor component={Link} href="/reset-password" size="sm">
               Forgot password?
             </Anchor>
