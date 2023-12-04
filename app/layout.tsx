@@ -1,7 +1,7 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { ReactNode } from 'react';
-import { theme } from '../theme';
+import { theme } from '@/theme';
 
 export const metadata = {
   title: 'TAvionix',

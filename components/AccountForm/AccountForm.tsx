@@ -8,7 +8,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { createClient } from '@/utils/supabase/client';
-// import { Database } from '../database.types';
+// import type { Database } from '@/lib/database.types';
 
 export default function AccountForm({ session }: { session: Session | null }) {
   const supabase = createClient(); // docs had <Database> type
