@@ -6,24 +6,24 @@ export interface Database {
     Tables: {
       applications: {
         Row: {
-          applicant_id: string | null;
+          applicant_id: string;
           created_at: string;
           id: number;
-          position_id: number | null;
+          position_id: number;
           status: number | null;
         };
         Insert: {
-          applicant_id?: string | null;
+          applicant_id: string;
           created_at?: string;
           id?: number;
-          position_id?: number | null;
+          position_id: number;
           status?: number | null;
         };
         Update: {
-          applicant_id?: string | null;
+          applicant_id?: string;
           created_at?: string;
           id?: number;
-          position_id?: number | null;
+          position_id?: number;
           status?: number | null;
         };
         Relationships: [
@@ -45,25 +45,25 @@ export interface Database {
       };
       courses: {
         Row: {
-          code: string | null;
+          code: string;
           created_at: string;
           department: string | null;
           id: number;
-          title: string | null;
+          title: string;
         };
         Insert: {
-          code?: string | null;
+          code: string;
           created_at?: string;
           department?: string | null;
           id?: number;
-          title?: string | null;
+          title: string;
         };
         Update: {
-          code?: string | null;
+          code?: string;
           created_at?: string;
           department?: string | null;
           id?: number;
-          title?: string | null;
+          title?: string;
         };
         Relationships: [];
       };
@@ -107,32 +107,32 @@ export interface Database {
       };
       ta_positions: {
         Row: {
-          course_id: number | null;
+          course_id: number;
           created_at: string;
           id: number;
           instructor_id: string | null;
-          is_vacant: boolean | null;
-          semester: string | null;
+          is_vacant: boolean;
+          semester: string;
           ta_evaluation: string | null;
           ta_id: string | null;
         };
         Insert: {
-          course_id?: number | null;
+          course_id: number;
           created_at?: string;
           id?: number;
           instructor_id?: string | null;
-          is_vacant?: boolean | null;
-          semester?: string | null;
+          is_vacant?: boolean;
+          semester: string;
           ta_evaluation?: string | null;
           ta_id?: string | null;
         };
         Update: {
-          course_id?: number | null;
+          course_id?: number;
           created_at?: string;
           id?: number;
           instructor_id?: string | null;
-          is_vacant?: boolean | null;
-          semester?: string | null;
+          is_vacant?: boolean;
+          semester?: string;
           ta_evaluation?: string | null;
           ta_id?: string | null;
         };
