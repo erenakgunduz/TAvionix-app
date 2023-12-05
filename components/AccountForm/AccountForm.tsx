@@ -15,17 +15,19 @@ export default function AccountForm({ session }: { session: Session | null }) {
   const [first_name, setFirstName] = useState<string | null>(null);
   const [last_name, setLastName] = useState<string | null>(null);
   const [profile_type, setProfileType] = useState<string | null>(null);
-  const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+  const [department, setDepartment] = useState<string | null>(null);
   const user = session?.user;
 
   const getProfile = useCallback(async () => {
     try {
       setLoading(true);
 
+      if (!user) throw new Error('Could not get user');
+
       const { data, error, status } = await supabase
         .from('profiles')
-        .select('first_name, last_name, profile_type, avatar_url')
-        .eq('id', user?.id)
+        .select('first_name, last_name, profile_type, department')
+        .eq('id', user.id)
         .single();
 
       if (error && status !== 406) throw error;
@@ -34,7 +36,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         setFirstName(data.first_name);
         setLastName(data.last_name);
         setProfileType(data.profile_type);
-        setAvatarUrl(data.avatar_url);
+        setDepartment(data.department);
       }
     } catch (error) {
       alert('Error loading user data!');
@@ -51,10 +53,10 @@ export default function AccountForm({ session }: { session: Session | null }) {
     first_name: string | null;
     last_name: string | null;
     profile_type: string | null;
-    avatar_url: string | null;
+    department: string | null;
   }
 
-  async function updateProfile({ first_name, last_name, profile_type, avatar_url }: ProfileProps) {
+  async function updateProfile({ first_name, last_name, profile_type, department }: ProfileProps) {
     try {
       setLoading(true);
 
@@ -63,7 +65,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         first_name,
         last_name,
         profile_type,
-        avatar_url,
+        department,
         updated_at: new Date().toISOString(),
       });
 
@@ -84,7 +86,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         <input id="email" type="text" value={session?.user.email} disabled />
       </div>
       <div>
-        <label htmlFor="first-name">First Name</label>
+        <label htmlFor="first-name">First name</label>
         <input
           id="first-name"
           type="text"
@@ -93,7 +95,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         />
       </div>
       <div>
-        <label htmlFor="last-name">Last Name</label>
+        <label htmlFor="last-name">Last name</label>
         <input
           id="last-name"
           type="text"
@@ -102,12 +104,22 @@ export default function AccountForm({ session }: { session: Session | null }) {
         />
       </div>
       <div>
-        <label htmlFor="user-type">User Type</label>
+        <label htmlFor="user-type">User type</label>
         <input
           id="user-type"
-          type="url"
+          type="text"
           value={profile_type || ''}
           onChange={(e) => setProfileType(e.target.value)}
+          disabled
+        />
+      </div>
+      <div>
+        <label htmlFor="department">Department (or major)</label>
+        <input
+          id="department"
+          type="text"
+          value={department || ''}
+          onChange={(e) => setDepartment(e.target.value)}
         />
       </div>
 
@@ -115,7 +127,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         <button
           className="button primary block"
           type="button"
-          onClick={() => updateProfile({ first_name, last_name, profile_type, avatar_url })}
+          onClick={() => updateProfile({ first_name, last_name, profile_type, department })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
