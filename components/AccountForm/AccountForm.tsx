@@ -8,10 +8,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { createClient } from '@/utils/supabase/client';
-// import type { Database } from '@/lib/database.types';
 
 export default function AccountForm({ session }: { session: Session | null }) {
-  const supabase = createClient(); // docs had <Database> type
+  const supabase = createClient();
   const [loading, setLoading] = useState(true);
   const [first_name, setFirstName] = useState<string | null>(null);
   const [last_name, setLastName] = useState<string | null>(null);
@@ -69,6 +68,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
       });
 
       if (error) throw error;
+
       alert('Profile updated!');
     } catch (error) {
       alert('Error updating the data!');
