@@ -17,6 +17,7 @@ import { useForm } from '@mantine/form';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import handleGithub from '@/utils/handle-github';
 import GithubButton from '../GithubButton/GithubButton';
 import classes from './AuthForm.module.css';
 
@@ -88,7 +89,7 @@ export default function AuthForm() {
           Log in with
         </Text>
 
-        <GithubButton fullWidth mb="md" mt="md">
+        <GithubButton fullWidth mb="md" mt="md" onClick={handleGithub}>
           GitHub
         </GithubButton>
 
@@ -116,7 +117,6 @@ export default function AuthForm() {
 
           <Group justify="space-between" mt="lg">
             <Checkbox label="Remember me" />
-
             <Anchor component={Link} href="/reset-password" size="sm">
               Forgot password?
             </Anchor>

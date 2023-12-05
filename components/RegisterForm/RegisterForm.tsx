@@ -15,6 +15,7 @@ import {
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import handleGithub from '@/utils/handle-github';
 import GithubButton from '../GithubButton/GithubButton';
 
 export default function RegisterForm() {
@@ -65,7 +66,7 @@ export default function RegisterForm() {
         Welcome to TAvionix, sign up with
       </Text>
 
-      <GithubButton fullWidth mb="md" mt="md">
+      <GithubButton fullWidth mb="md" mt="md" onClick={handleGithub}>
         GitHub
       </GithubButton>
 
@@ -114,6 +115,7 @@ export default function RegisterForm() {
             required
             radius="md"
           />
+
           <PasswordInput
             label="Password"
             name="password"
