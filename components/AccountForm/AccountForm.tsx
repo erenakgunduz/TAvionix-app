@@ -16,6 +16,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
   const [last_name, setLastName] = useState<string | null>(null);
   const [profile_type, setProfileType] = useState<string | null>(null);
   const [department, setDepartment] = useState<string | null>(null);
+  const [typeEmpty, setTypeEmpty] = useState<boolean>(true);
   const user = session?.user;
 
   const getProfile = useCallback(async () => {
@@ -36,6 +37,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         setFirstName(data.first_name);
         setLastName(data.last_name);
         setProfileType(data.profile_type);
+        if (data.profile_type) setTypeEmpty(false);
         setDepartment(data.department);
       }
     } catch (error) {
@@ -110,7 +112,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
           type="text"
           value={profile_type || ''}
           onChange={(e) => setProfileType(e.target.value)}
-          disabled
+          disabled={!typeEmpty}
         />
       </div>
       <div>
