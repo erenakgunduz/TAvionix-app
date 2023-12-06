@@ -18,7 +18,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import handleGithub from '@/utils/handle-github';
+import handleGoogle from '@/utils/handle-google';
 import GithubButton from '../GithubButton/GithubButton';
+import GoogleButton from '../GoogleButton/GoogleButton';
 import classes from './AuthForm.module.css';
 
 export default function AuthForm() {
@@ -89,9 +91,10 @@ export default function AuthForm() {
           Log in with
         </Text>
 
-        <GithubButton fullWidth mb="md" mt="md" onClick={handleGithub}>
-          GitHub
-        </GithubButton>
+        <Group grow mb="md" mt="md">
+          <GithubButton onClick={handleGithub}>GitHub</GithubButton>
+          <GoogleButton onClick={handleGoogle}>Google</GoogleButton>
+        </Group>
 
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
 

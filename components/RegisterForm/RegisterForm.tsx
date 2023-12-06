@@ -16,7 +16,9 @@ import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import handleGithub from '@/utils/handle-github';
+import handleGoogle from '@/utils/handle-google';
 import GithubButton from '../GithubButton/GithubButton';
+import GoogleButton from '../GoogleButton/GoogleButton';
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
@@ -66,9 +68,10 @@ export default function RegisterForm() {
         Welcome to TAvionix, sign up with
       </Text>
 
-      <GithubButton fullWidth mb="md" mt="md" onClick={handleGithub}>
-        GitHub
-      </GithubButton>
+      <Group grow mb="md" mt="md">
+        <GithubButton onClick={handleGithub}>GitHub</GithubButton>
+        <GoogleButton onClick={handleGoogle}>Google</GoogleButton>
+      </Group>
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 

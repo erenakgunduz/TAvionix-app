@@ -1,4 +1,4 @@
-// Helper function to extract the error message as a string no matter what
+// Helper function to extract the error message as a string no matter what, large up Wesley
 export default function getErrorMessage(error: unknown): string {
   let message: string;
 
