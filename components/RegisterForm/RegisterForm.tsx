@@ -6,10 +6,8 @@ import {
   Divider,
   Group,
   NativeSelect,
-  Paper,
   PasswordInput,
   Stack,
-  Text,
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -22,6 +20,7 @@ import GoogleButton from '../GoogleButton/GoogleButton';
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
+
   const userTypes = ['', 'Applicant', 'Committee', 'Instructor', 'Staff'];
   const departments = ['', 'Biology', 'Chemistry', 'Computer Science', 'Engineering', 'Physics'];
 
@@ -63,11 +62,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <Paper withBorder radius="md" p="xl">
-      <Text size="lg" fw={500}>
-        Welcome to TAvionix, sign up with
-      </Text>
-
+    <>
       <Group grow mb="md" mt="md">
         <GithubButton onClick={handleGithub}>GitHub</GithubButton>
         <GoogleButton onClick={handleGoogle}>Google</GoogleButton>
@@ -142,6 +137,6 @@ export default function RegisterForm() {
           </Button>
         </Group>
       </form>
-    </Paper>
+    </>
   );
 }

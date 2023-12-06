@@ -1,9 +1,29 @@
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import AccountForm from '@/components/AccountForm/AccountForm';
-import getSession from '@/utils/supabase/get-session';
+import getErrorMessage from '@/utils/error-message';
+import { createClient } from '@/utils/supabase/server';
 
 export default async function Account() {
-  const session = await getSession();
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const user = session?.user;
+
+  let accountError: string | null = null;
+  if (!user) accountError = 'Could not get user';
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('first_name, last_name, profile_type, department')
+    .eq('id', user!.id)
+    .single();
+
+  if (error) accountError = getErrorMessage(error);
 
   return (
     <>
@@ -12,7 +32,7 @@ export default async function Account() {
         Hi {session?.user.user_metadata.first_name ?? session?.user.email}! You can update your
         profile here.
       </h3>
-      <AccountForm session={session} />
+      <AccountForm accountData={data} error={accountError} />
       <ul>
         <li>
           <Link href="/account/update-email">Update email</Link>

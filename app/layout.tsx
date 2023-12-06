@@ -1,6 +1,6 @@
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-import '@mantine/core/styles.css';
+import { ColorSchemeScript, Container, MantineProvider } from '@mantine/core';
 import { theme } from '@/theme';
+import '@mantine/core/styles.css';
 
 export const metadata = {
   title: 'TAvionix',
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MantineProvider defaultColorScheme="auto" theme={theme}>
-          {children}
+          <Container>{children}</Container>
         </MantineProvider>
       </body>
     </html>

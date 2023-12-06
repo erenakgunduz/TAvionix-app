@@ -4,14 +4,12 @@ import {
   Anchor,
   Button,
   Checkbox,
-  Container,
   Divider,
   Group,
   Paper,
   PasswordInput,
   Text,
   TextInput,
-  Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import Link from 'next/link';
@@ -21,7 +19,6 @@ import handleGithub from '@/utils/handle-github';
 import handleGoogle from '@/utils/handle-google';
 import GithubButton from '../GithubButton/GithubButton';
 import GoogleButton from '../GoogleButton/GoogleButton';
-import classes from './AuthForm.module.css';
 
 export default function AuthForm() {
   const [loading, setLoading] = useState(false);
@@ -59,7 +56,6 @@ export default function AuthForm() {
     }
   };
 
-  // Experimenting with dynamic input validation
   // const valInRealTime = (name: string) =>
   //   useEffect(() => {
   //     form.validateField(name);
@@ -74,62 +70,49 @@ export default function AuthForm() {
   // };
 
   return (
-    <Container size={420} my={40}>
-      <Title ta="center" className={classes.title}>
-        Welcome back!
-      </Title>
-
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        {"Don't have an account yet? "}
-        <Anchor size="sm" component={Link} href="/sign-up">
-          Create account
-        </Anchor>
+    <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Text size="lg" fw={500}>
+        Log in with
       </Text>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Text size="lg" fw={500}>
-          Log in with
-        </Text>
+      <Group grow mb="md" mt="md">
+        <GithubButton onClick={handleGithub}>GitHub</GithubButton>
+        <GoogleButton onClick={handleGoogle}>Google</GoogleButton>
+      </Group>
 
-        <Group grow mb="md" mt="md">
-          <GithubButton onClick={handleGithub}>GitHub</GithubButton>
-          <GoogleButton onClick={handleGoogle}>Google</GoogleButton>
+      <Divider label="Or continue with email" labelPosition="center" my="lg" />
+
+      <form id="log-in" onSubmit={form.onSubmit(handleSubmit)}>
+        <TextInput
+          label="Email"
+          name="email"
+          placeholder="you@example.com"
+          {...form.getInputProps('email')}
+          // onChange={handleChange('email')}
+          required
+        />
+
+        <PasswordInput
+          label="Password"
+          name="password"
+          placeholder="Your password"
+          {...form.getInputProps('password')}
+          // onChange={handleChange('password')}
+          required
+          mt="md"
+        />
+
+        <Group justify="space-between" mt="lg">
+          <Checkbox label="Remember me" />
+          <Anchor component={Link} href="/reset-password" size="sm">
+            Forgot password?
+          </Anchor>
         </Group>
 
-        <Divider label="Or continue with email" labelPosition="center" my="lg" />
-
-        <form id="log-in" onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            label="Email"
-            name="email"
-            placeholder="you@example.com"
-            {...form.getInputProps('email')}
-            // onChange={handleChange('email')}
-            required
-          />
-
-          <PasswordInput
-            label="Password"
-            name="password"
-            placeholder="Your password"
-            {...form.getInputProps('password')}
-            // onChange={handleChange('password')}
-            required
-            mt="md"
-          />
-
-          <Group justify="space-between" mt="lg">
-            <Checkbox label="Remember me" />
-            <Anchor component={Link} href="/reset-password" size="sm">
-              Forgot password?
-            </Anchor>
-          </Group>
-
-          <Button fullWidth mt="xl" type="submit" loading={loading}>
-            Log in
-          </Button>
-        </form>
-      </Paper>
-    </Container>
+        <Button fullWidth mt="xl" type="submit" loading={loading}>
+          Log in
+        </Button>
+      </form>
+    </Paper>
   );
 }
