@@ -1,5 +1,7 @@
+import { Anchor, Skeleton } from '@mantine/core';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import AccountForm from '@/components/AccountForm/AccountForm';
 import getErrorMessage from '@/utils/error-message';
 import { createClient } from '@/utils/supabase/server';
@@ -28,17 +30,20 @@ export default async function Account() {
   return (
     <>
       <h2>Account</h2>
-      <h3>
-        Hi {session?.user.user_metadata.first_name ?? session?.user.email}! You can update your
-        profile here.
-      </h3>
-      <AccountForm accountData={data} error={accountError} />
+      <h3>Hi {data?.first_name ?? session?.user.email}! You can update your profile here.</h3>
+      <Suspense fallback={<Skeleton />}>
+        <AccountForm accountData={data} error={accountError} />
+      </Suspense>
       <ul>
         <li>
-          <Link href="/account/update-email">Update email</Link>
+          <Anchor component={Link} href="/account/update-email">
+            Update email
+          </Anchor>
         </li>
         <li>
-          <Link href="/account/update-password">Update password</Link>
+          <Anchor component={Link} href="/account/update-password">
+            Update password
+          </Anchor>
         </li>
       </ul>
     </>

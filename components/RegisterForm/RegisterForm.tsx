@@ -5,14 +5,15 @@ import {
   Checkbox,
   Divider,
   Group,
-  NativeSelect,
   PasswordInput,
+  Select,
   Stack,
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { departments, userTypes } from '@/lib/selector-data';
 import handleGithub from '@/utils/handle-github';
 import handleGoogle from '@/utils/handle-google';
 import GithubButton from '../GithubButton/GithubButton';
@@ -20,9 +21,6 @@ import GoogleButton from '../GoogleButton/GoogleButton';
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
-
-  const userTypes = ['', 'Applicant', 'Committee', 'Instructor', 'Staff'];
-  const departments = ['', 'Biology', 'Chemistry', 'Computer Science', 'Engineering', 'Physics'];
 
   const form = useForm({
     initialValues: {
@@ -90,16 +88,18 @@ export default function RegisterForm() {
           </Group>
 
           <Group justify="space-between" grow>
-            <NativeSelect
+            <Select
               label="What type of user are you?"
               name="user-type"
+              placeholder=" "
               data={userTypes}
               required
               radius="md"
             />
-            <NativeSelect
+            <Select
               label="Department (or major)"
               name="department"
+              placeholder=" "
               data={departments}
               radius="md"
             />
