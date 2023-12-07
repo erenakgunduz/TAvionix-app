@@ -47,7 +47,7 @@ export default function AccountForm({ accountData, error }: AccountFormProps) {
   const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
   const clientAction = async (formData: FormData) => {
-    // setLoading(true); // Doesn't update and I don't know the workaround yet
+    // setLoading(true); // Doesn't update, think I know why (no re-render), just don't know the workaround yet
     if (!formData.get('user-type')) formData.set('user-type', accountData?.profile_type ?? '');
 
     const result = await updateProfile(formData);
