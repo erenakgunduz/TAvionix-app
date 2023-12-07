@@ -1,6 +1,7 @@
 'use client';
 
 // Error components must be Client Components
+import { Button, Container } from '@mantine/core';
 import { useEffect } from 'react';
 
 export default function Error({
@@ -13,12 +14,12 @@ export default function Error({
   useEffect(() => console.error(error), [error]); // Log the error to an error reporting service
 
   return (
-    <div className="error-boundary">
+    <Container className="error-boundary">
       <h2>Something went wrong!</h2>
       {/* Attempt to recover by trying to re-render the segment */}
-      <button type="button" onClick={() => reset()}>
+      <Button type="button" onClick={() => reset()}>
         Try again
-      </button>
-    </div>
+      </Button>
+    </Container>
   );
 }
