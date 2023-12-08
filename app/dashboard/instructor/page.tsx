@@ -31,17 +31,17 @@ export default async function Dashboard() {
   }
 
   if (account.error) accountError = getErrorMessage(account.error);
+  if (accountError) throw new Error(accountError);
 
-  const { data, error } = await supabase
-    .from('ta_evaluations')
-    .select('*')
-    .eq('instructor_id', user!.id);
+  // const { data, error } = await supabase
+  const { data } = await supabase.from('ta_evaluations').select('*').eq('instructor_id', user!.id);
 
   return (
     <>
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <Suspense fallback={<Skeleton />}>
-        <InstructorTable data={data} error={error} />
+        {/* <InstructorTable data={data} error={error} /> */}
+        <InstructorTable data={data} />
       </Suspense>
     </>
   );

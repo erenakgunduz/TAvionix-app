@@ -32,17 +32,16 @@ export default async function Dashboard() {
   }
 
   if (account.error) accountError = getErrorMessage(account.error);
+  if (accountError) throw new Error(accountError);
 
-  const { data, error } = await supabase
-    .from('user_applications')
-    .select('*')
-    .eq('status', 'Recommended');
+  // const { data, error } = await supabase
+  const { data } = await supabase.from('user_applications').select('*').eq('status', 'Recommended');
 
   return (
     <>
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <Suspense fallback={<Skeleton />}>
-        <CommitteeApplicationsList data={data} error={error} />
+        <CommitteeApplicationsList data={data} />
       </Suspense>
     </>
   );

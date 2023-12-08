@@ -21,13 +21,13 @@ interface ApplicationsTableProps {
         tp_id: number | null;
       }[]
     | null;
-  error: any;
+  // error: unknown;
 }
-
-export default function ApplicationsTable({ data, error }: ApplicationsTableProps) {
+// { data, error }
+export default function ApplicationsTable({ data }: ApplicationsTableProps) {
   const rows = data?.map((row) => (
     <TableTr key={row.tp_id}>
-      <TableTd>{new Date(row.created_at).toDateString()}</TableTd>
+      <TableTd>{new Date(row.created_at!).toDateString()}</TableTd>
       <TableTd>{row.description}</TableTd>
       <TableTd>{row.status}</TableTd>
       <TableTd>

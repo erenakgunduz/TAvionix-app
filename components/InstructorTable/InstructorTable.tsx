@@ -22,10 +22,10 @@ interface InstructorTableProps {
         tp_id: number | null;
       }[]
     | null;
-  error: any;
+  // error: unknown;
 }
 
-export default function InstructorTable({ data, error }: InstructorTableProps) {
+export default function InstructorTable({ data }: InstructorTableProps) {
   const rows = data?.map((row) => (
     <TableTr key={row.tp_id}>
       <TableTd>

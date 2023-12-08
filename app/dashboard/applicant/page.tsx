@@ -32,8 +32,10 @@ export default async function Dashboard() {
   }
 
   if (account.error) accountError = getErrorMessage(account.error);
+  if (accountError) throw new Error(accountError);
 
-  const { data, error } = await supabase
+  // const { data, error } = await supabase
+  const { data } = await supabase
     .from('user_applications')
     .select('*')
     .eq('applicant_id', user!.id);
@@ -52,7 +54,8 @@ export default async function Dashboard() {
       <Divider />
       <h2>Your applications</h2>
       <Suspense fallback={<Skeleton />}>
-        <ApplicationsTable data={data} error={error} />
+        {/* <ApplicationsTable data={data} error={error} /> */}
+        <ApplicationsTable data={data} />
       </Suspense>
     </>
   );

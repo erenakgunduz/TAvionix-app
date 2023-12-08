@@ -15,6 +15,7 @@ export default async function Dashboard() {
   let accountError: string | null = null;
 
   if (!user) accountError = 'Could not get user';
+  if (accountError) throw new Error(accountError);
 
   const account = await supabase
     .from('profiles')

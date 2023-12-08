@@ -22,11 +22,11 @@ interface ApplicationsTableProps {
     | null;
   error: any;
 }
-
-export default function StaffApplicationsList({ data, error }: ApplicationsTableProps) {
+// { data, error }
+export default function StaffApplicationsList({ data }: ApplicationsTableProps) {
   const rows = data?.map((row) => (
     <div key={row.id}>
-      <p>Date applied: {new Date(row.created_at).toDateString()}</p>
+      <p>Date applied: {new Date(row.created_at!).toDateString()}</p>
       <p>Description: {row.description}</p>
       <p>Applicant first name: {row.applicant_first_name}</p>
       <p>Applicant last name: {row.applicant_last_name}</p>

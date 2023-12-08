@@ -31,6 +31,7 @@ export default async function Dashboard() {
   }
 
   if (account.error) accountError = getErrorMessage(account.error);
+  if (accountError) throw new Error(accountError);
 
   const { data, error } = await supabase.from('user_applications').select('*');
 

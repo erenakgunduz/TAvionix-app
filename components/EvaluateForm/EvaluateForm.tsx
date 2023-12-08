@@ -11,10 +11,10 @@ interface EvaluateFormProps {
       }[]
     | null;
   id: string;
-  error: unknown;
+  // error: unknown;
 }
 
-export default function EvaluateForm({ data, id, error }: EvaluateFormProps) {
+export default function EvaluateForm({ data, id }: EvaluateFormProps) {
   const clientAction = async (formData: FormData) => {
     const result = await submitEvaluation(formData, id);
     if (result === 'Evaluation submitted!') {
