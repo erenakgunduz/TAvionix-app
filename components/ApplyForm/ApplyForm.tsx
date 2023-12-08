@@ -80,7 +80,7 @@ export default function ApplyForm({ data, error }: ApplyFormProps) {
       toast.error(getErrorMessage(err));
     } finally {
       setLoading(false);
-      setTimeout(() => router.push('/dashboard'), 3000);
+      setTimeout(() => router.push('/dashboard/applicant'), 2000);
     }
   };
 

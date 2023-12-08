@@ -52,6 +52,13 @@ export interface Database {
             referencedColumns: ['id'];
           },
           {
+            foreignKeyName: 'applications_applicant_id_fkey';
+            columns: ['applicant_id'];
+            isOneToOne: false;
+            referencedRelation: 'ta_evaluations';
+            referencedColumns: ['id'];
+          },
+          {
             foreignKeyName: 'applications_position_id_fkey';
             columns: ['position_id'];
             isOneToOne: false;
@@ -62,8 +69,22 @@ export interface Database {
             foreignKeyName: 'applications_position_id_fkey';
             columns: ['position_id'];
             isOneToOne: false;
+            referencedRelation: 'ta_evaluations';
+            referencedColumns: ['tp_id'];
+          },
+          {
+            foreignKeyName: 'applications_position_id_fkey';
+            columns: ['position_id'];
+            isOneToOne: false;
             referencedRelation: 'ta_positions';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'applications_position_id_fkey';
+            columns: ['position_id'];
+            isOneToOne: false;
+            referencedRelation: 'user_applications';
+            referencedColumns: ['tp_id'];
           },
         ];
       };
@@ -200,8 +221,29 @@ export interface Database {
             referencedColumns: ['id'];
           },
           {
+            foreignKeyName: 'ta_positions_course_id_fkey';
+            columns: ['course_id'];
+            isOneToOne: false;
+            referencedRelation: 'user_applications';
+            referencedColumns: ['c_id'];
+          },
+          {
             foreignKeyName: 'ta_positions_instructor_id_fkey';
             columns: ['instructor_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'ta_positions_instructor_id_fkey';
+            columns: ['instructor_id'];
+            isOneToOne: false;
+            referencedRelation: 'ta_evaluations';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'ta_positions_ta_id_fkey';
+            columns: ['ta_id'];
             isOneToOne: false;
             referencedRelation: 'profiles';
             referencedColumns: ['id'];
@@ -210,7 +252,7 @@ export interface Database {
             foreignKeyName: 'ta_positions_ta_id_fkey';
             columns: ['ta_id'];
             isOneToOne: false;
-            referencedRelation: 'profiles';
+            referencedRelation: 'ta_evaluations';
             referencedColumns: ['id'];
           },
         ];
@@ -224,6 +266,73 @@ export interface Database {
           tp_id: number | null;
         };
         Relationships: [];
+      };
+      ta_evaluations: {
+        Row: {
+          first_name: string | null;
+          id: string | null;
+          instructor_id: string | null;
+          last_name: string | null;
+          semester: string | null;
+          title: string | null;
+          tp_id: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'profiles_id_fkey';
+            columns: ['id'];
+            isOneToOne: true;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'ta_positions_instructor_id_fkey';
+            columns: ['instructor_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'ta_positions_instructor_id_fkey';
+            columns: ['instructor_id'];
+            isOneToOne: false;
+            referencedRelation: 'ta_evaluations';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      user_applications: {
+        Row: {
+          applicant_first_name: string | null;
+          applicant_gpa: number | null;
+          applicant_id: string | null;
+          applicant_last_name: string | null;
+          applicant_major: string | null;
+          c_id: number | null;
+          created_at: string | null;
+          description: string | null;
+          id: number | null;
+          past_experience: Json | null;
+          resume_url: string | null;
+          status: string | null;
+          tp_id: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'applications_applicant_id_fkey';
+            columns: ['applicant_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'applications_applicant_id_fkey';
+            columns: ['applicant_id'];
+            isOneToOne: false;
+            referencedRelation: 'ta_evaluations';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Functions: {
