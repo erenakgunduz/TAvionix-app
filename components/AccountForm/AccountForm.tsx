@@ -7,21 +7,11 @@ import { departments, userTypes } from '@/lib/selector-data';
 import updateProfile from '@/utils/actions/update-profile';
 import getErrorMessage from '@/utils/error-message';
 
-interface AccountFormProps {
-  accountData: {
-    first_name: string | null;
-    last_name: string | null;
-    profile_type: string | null;
-    department: string | null;
-  } | null;
-  error: string | null;
-}
-
 export default function AccountForm({ accountData, error }: AccountFormProps) {
   const [loading, setLoading] = useState(true);
-  const [first_name, setFirstName] = useState<string | null>(null);
-  const [last_name, setLastName] = useState<string | null>(null);
-  const [profile_type, setProfileType] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState<string | null>(null);
+  const [lastName, setLastName] = useState<string | null>(null);
+  const [profileType, setProfileType] = useState<string | null>(null);
   const [department, setDepartment] = useState<string | null>(null);
 
   const getProfile = useCallback(() => {
@@ -68,14 +58,14 @@ export default function AccountForm({ accountData, error }: AccountFormProps) {
             <TextInput
               label="First name"
               name="first-name"
-              value={first_name ?? ''}
+              value={firstName ?? ''}
               onChange={(e) => setFirstName(e.currentTarget.value)}
               radius="md"
             />
             <TextInput
               label="Last name"
               name="last-name"
-              value={last_name ?? ''}
+              value={lastName ?? ''}
               onChange={(e) => setLastName(e.currentTarget.value)}
               radius="md"
             />
@@ -85,7 +75,7 @@ export default function AccountForm({ accountData, error }: AccountFormProps) {
               label="Account type"
               name="user-type"
               data={userTypes}
-              value={profile_type ? capitalize(profile_type) : ''}
+              value={profileType ? capitalize(profileType) : ''}
               onChange={(e) => setProfileType(e)}
               disabled={!!accountData?.profile_type}
               radius="md"

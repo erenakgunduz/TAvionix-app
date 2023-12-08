@@ -1,4 +1,3 @@
-// Remember to update with any changes to data model/database schema
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export interface Database {
@@ -6,25 +5,43 @@ export interface Database {
     Tables: {
       applications: {
         Row: {
+          applicant_first_name: string;
+          applicant_gpa: number;
           applicant_id: string;
+          applicant_last_name: string;
+          applicant_major: string;
           created_at: string;
           id: number;
+          past_experience: Json | null;
           position_id: number;
-          status: number | null;
+          resume_url: string;
+          status: string | null;
         };
         Insert: {
+          applicant_first_name: string;
+          applicant_gpa: number;
           applicant_id: string;
+          applicant_last_name: string;
+          applicant_major: string;
           created_at?: string;
           id?: number;
+          past_experience?: Json | null;
           position_id: number;
-          status?: number | null;
+          resume_url: string;
+          status?: string | null;
         };
         Update: {
+          applicant_first_name?: string;
+          applicant_gpa?: number;
           applicant_id?: string;
+          applicant_last_name?: string;
+          applicant_major?: string;
           created_at?: string;
           id?: number;
+          past_experience?: Json | null;
           position_id?: number;
-          status?: number | null;
+          resume_url?: string;
+          status?: string | null;
         };
         Relationships: [
           {
@@ -33,6 +50,13 @@ export interface Database {
             isOneToOne: false;
             referencedRelation: 'profiles';
             referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'applications_position_id_fkey';
+            columns: ['position_id'];
+            isOneToOne: false;
+            referencedRelation: 'open_ta_positions';
+            referencedColumns: ['tp_id'];
           },
           {
             foreignKeyName: 'applications_position_id_fkey';
@@ -105,6 +129,30 @@ export interface Database {
           },
         ];
       };
+      support: {
+        Row: {
+          created_at: string;
+          email: string | null;
+          id: number;
+          message: string;
+          name: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          email?: string | null;
+          id?: number;
+          message: string;
+          name?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          email?: string | null;
+          id?: number;
+          message?: string;
+          name?: string | null;
+        };
+        Relationships: [];
+      };
       ta_positions: {
         Row: {
           course_id: number;
@@ -145,6 +193,13 @@ export interface Database {
             referencedColumns: ['id'];
           },
           {
+            foreignKeyName: 'ta_positions_course_id_fkey';
+            columns: ['course_id'];
+            isOneToOne: false;
+            referencedRelation: 'open_ta_positions';
+            referencedColumns: ['id'];
+          },
+          {
             foreignKeyName: 'ta_positions_instructor_id_fkey';
             columns: ['instructor_id'];
             isOneToOne: false;
@@ -162,7 +217,14 @@ export interface Database {
       };
     };
     Views: {
-      [_ in never]: never;
+      open_ta_positions: {
+        Row: {
+          description: string | null;
+          id: number | null;
+          tp_id: number | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       [_ in never]: never;

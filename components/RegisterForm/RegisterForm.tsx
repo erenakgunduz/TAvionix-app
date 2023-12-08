@@ -62,8 +62,12 @@ export default function RegisterForm() {
   return (
     <>
       <Group grow mb="md" mt="md">
-        <GithubButton onClick={handleGithub}>GitHub</GithubButton>
-        <GoogleButton onClick={handleGoogle}>Google</GoogleButton>
+        <GithubButton onClick={handleGithub} radius="xl">
+          GitHub
+        </GithubButton>
+        <GoogleButton onClick={handleGoogle} radius="xl">
+          Google
+        </GoogleButton>
       </Group>
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />

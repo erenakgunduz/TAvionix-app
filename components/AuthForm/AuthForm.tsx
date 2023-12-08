@@ -76,8 +76,12 @@ export default function AuthForm() {
       </Text>
 
       <Group grow mb="md" mt="md">
-        <GithubButton onClick={handleGithub}>GitHub</GithubButton>
-        <GoogleButton onClick={handleGoogle}>Google</GoogleButton>
+        <GithubButton onClick={handleGithub} radius="lg">
+          GitHub
+        </GithubButton>
+        <GoogleButton onClick={handleGoogle} radius="lg">
+          Google
+        </GoogleButton>
       </Group>
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
