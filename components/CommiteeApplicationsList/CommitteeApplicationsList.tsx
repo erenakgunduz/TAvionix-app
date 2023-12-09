@@ -1,5 +1,11 @@
+'use client';
+
 import { Button, Divider } from '@mantine/core';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { Json } from '@/lib/database.types';
+import { createClient } from '@/utils/supabase/client';
+import getErrorMessage from '@/utils/error-message';
 // import classes from './TableReviews.module.css';
 
 interface ApplicationsTableProps {
@@ -24,6 +30,26 @@ interface ApplicationsTableProps {
 }
 
 export default function CommitteeApplicationsList({ data }: ApplicationsTableProps) {
+  const router = useRouter();
+
+  const handleClick = async (newStatus: string, id: number) => {
+    const supabase = createClient();
+
+    try {
+      const { error } = await supabase
+        .from('applications')
+        .update({ status: newStatus })
+        .eq('id', id);
+      if (error) throw new Error(error.message);
+      toast.success('Status updated!');
+      router.refresh();
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    }
+  };
+
+  if (data?.length! < 1) return <div>No applications to review</div>;
+
   const rows = data?.map((row) => (
     <div key={row.id}>
       <p>Date applied: {new Date(row.created_at!).toDateString()}</p>
@@ -39,8 +65,10 @@ export default function CommitteeApplicationsList({ data }: ApplicationsTablePro
       <p>
         {row.status === 'Recommended' && (
           <>
-            <Button size="xs">Select</Button>
-            <Button size="xs" color="red">
+            <Button onClick={() => handleClick('Selected', row.id!)} size="xs">
+              Select
+            </Button>
+            <Button onClick={() => handleClick('Rejected', row.id!)} size="xs" color="red">
               Reject
             </Button>
           </>
