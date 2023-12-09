@@ -1,6 +1,5 @@
-import { Anchor, Skeleton } from '@mantine/core';
+import { Skeleton } from '@mantine/core';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 import { Suspense } from 'react';
 import AccountForm from '@/components/AccountForm/AccountForm';
 import getErrorMessage from '@/utils/error-message';
@@ -34,7 +33,7 @@ export default async function Account() {
       <Suspense fallback={<Skeleton />}>
         <AccountForm accountData={data} error={accountError} />
       </Suspense>
-      <ul>
+      {/* <ul>
         <li>
           <Anchor component={Link} href="/account/update-email">
             Update email
@@ -45,7 +44,7 @@ export default async function Account() {
             Update password
           </Anchor>
         </li>
-      </ul>
+      </ul> */}
     </>
   );
 }

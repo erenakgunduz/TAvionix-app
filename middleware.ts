@@ -18,6 +18,7 @@ export async function middleware(request: NextRequest) {
     }
     // if falsy/no session and the path is an authenticated one redirect the user to /login
     if (
+      (!session && request.nextUrl.pathname === '/') ||
       (!session && request.nextUrl.pathname.startsWith('/account')) ||
       (!session && request.nextUrl.pathname.startsWith('/apply')) ||
       (!session && request.nextUrl.pathname.startsWith('/dashboard'))

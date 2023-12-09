@@ -30,4 +30,25 @@ declare global {
     };
     error: (string | null)[];
   }
+
+  interface ApplicationsTableProps {
+    data:
+      | {
+          applicant_first_name: string | null;
+          applicant_gpa: number | null;
+          applicant_id: string | null;
+          applicant_last_name: string | null;
+          applicant_major: string | null;
+          c_id: number | null;
+          created_at: string | null;
+          description: string | null;
+          id: number | null;
+          past_experience: Json | null;
+          resume_url: string | null;
+          status: string | null;
+          tp_id: number | null;
+        }[]
+      | null;
+    // error: unknown;
+  }
 }

@@ -1,8 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { Button, Divider, Group, Skeleton } from '@mantine/core';
-import Link from 'next/link';
+import { Skeleton } from '@mantine/core';
 import { createClient } from '@/utils/supabase/server';
 import getErrorMessage from '@/utils/error-message';
 import ApplicationsTable from '@/components/ApplicationsTable/ApplicationsTable';
@@ -43,7 +42,7 @@ export default async function Dashboard() {
   return (
     <>
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-      <Group justify="space-between">
+      {/* <Group justify="space-between">
         <Button component={Link} href="/apply">
           New application
         </Button>
@@ -51,7 +50,7 @@ export default async function Dashboard() {
           My account
         </Button>
       </Group>
-      <Divider />
+      <Divider /> */}
       <h2>Your applications</h2>
       <Suspense fallback={<Skeleton />}>
         {/* <ApplicationsTable data={data} error={error} /> */}

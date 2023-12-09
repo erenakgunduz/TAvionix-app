@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Group, Select, Stack, TextInput } from '@mantine/core';
+import { Button, Group, Paper, Select, Stack, TextInput } from '@mantine/core';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { departments, userTypes } from '@/lib/selector-data';
@@ -50,7 +50,7 @@ export default function AccountForm({ accountData, error }: AccountFormProps) {
   };
 
   return (
-    <>
+    <Paper withBorder shadow="md" p={30} mt={30} radius="md">
       {/* <pre>{JSON.stringify(accountData, null, 2)}</pre> */}
       <form action={clientAction}>
         <Stack>
@@ -90,13 +90,15 @@ export default function AccountForm({ accountData, error }: AccountFormProps) {
             />
           </Group>
         </Stack>
-        <Button type="submit" loading={loading}>
+        <Button mt={20} type="submit" loading={loading}>
           Update
         </Button>
       </form>
-      <form action="/auth/logout" method="post">
-        <Button type="submit">Log out</Button>
-      </form>
-    </>
+      <Group justify="flex-end">
+        <form action="/auth/logout" method="post">
+          <Button type="submit">Log out</Button>
+        </form>
+      </Group>
+    </Paper>
   );
 }

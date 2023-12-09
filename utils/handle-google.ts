@@ -1,4 +1,3 @@
-import getURL from '@/url';
 import { createClient } from './supabase/client';
 
 export default async function handleGoogle() {
@@ -7,7 +6,7 @@ export default async function handleGoogle() {
   return supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${getURL()}auth/callback`,
+      redirectTo: `${window.location.origin}/auth/callback`,
       queryParams: { access_type: 'offline', prompt: 'consent' },
     },
   });

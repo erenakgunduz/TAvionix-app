@@ -2,7 +2,6 @@
 
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { createClient } from '../supabase/server';
 import getErrorMessage from '../error-message';
 
@@ -26,7 +25,5 @@ export default async function submitEvaluation(formData: FormData, id: string) {
     return 'Evaluation submitted!';
   } catch (err) {
     return getErrorMessage(err);
-  } finally {
-    redirect('/dashboard/instructor');
   }
 }

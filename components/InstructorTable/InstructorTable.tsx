@@ -48,7 +48,7 @@ export default function InstructorTable({ data }: InstructorTableProps) {
       <Table verticalSpacing="xs">
         <TableThead>
           <TableTr>
-            <TableTh>TA name</TableTh>
+            <TableTh>TA Name</TableTh>
             <TableTh>Course</TableTh>
             <TableTh>Semester</TableTh>
             <TableTh>Action</TableTh>

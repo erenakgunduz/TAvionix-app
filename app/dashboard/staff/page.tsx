@@ -33,13 +33,13 @@ export default async function Dashboard() {
   if (account.error) accountError = getErrorMessage(account.error);
   if (accountError) throw new Error(accountError);
 
-  const { data, error } = await supabase.from('user_applications').select('*');
+  const { data } = await supabase.from('user_applications').select('*');
 
   return (
     <>
       {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       <Suspense fallback={<Skeleton />}>
-        <StaffApplicationsList data={data} error={error} />
+        <StaffApplicationsList data={data} />
       </Suspense>
     </>
   );

@@ -3,31 +3,10 @@
 import { Button, Divider } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Json } from '@/lib/database.types';
 import { createClient } from '@/utils/supabase/client';
 import getErrorMessage from '@/utils/error-message';
 // import classes from './TableReviews.module.css';
 
-interface ApplicationsTableProps {
-  data:
-    | {
-        applicant_first_name: string | null;
-        applicant_gpa: number | null;
-        applicant_id: string | null;
-        applicant_last_name: string | null;
-        applicant_major: string | null;
-        c_id: number | null;
-        created_at: string | null;
-        description: string | null;
-        id: number | null;
-        past_experience: Json | null;
-        resume_url: string | null;
-        status: string | null;
-        tp_id: number | null;
-      }[]
-    | null;
-  // error: unknown;
-}
 // { data, error }
 export default function StaffApplicationsList({ data }: ApplicationsTableProps) {
   const router = useRouter();
@@ -59,7 +38,7 @@ export default function StaffApplicationsList({ data }: ApplicationsTableProps) 
       <p>Applicant major: {row.applicant_major}</p>
       <p>Applicant GPA: {row.applicant_gpa}</p>
       <p>Resume URL: {row.resume_url}</p>
-      <p>Previous experience: {row.past_experience as React.ReactNode}</p>
+      <p>Previous experience: {row.past_experience}</p>
       <p>Status: {row.status}</p>
       <Divider />
       <p>
